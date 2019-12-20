@@ -1,6 +1,8 @@
+#   Hlavní proměnné
 clusterID = 0
 xyID = {}
 
+#   Rekurzivní funkce vytvoření obdélníků (více viz. dokumentace.md)
 def lines (xy, NW, SE, xyID):
     if len(xy) < 50:
         global clusterID
@@ -21,6 +23,7 @@ def lines (xy, NW, SE, xyID):
         q3 = []
         q4 = []
 
+        #   Cyklus, který kontroluje, zda je bod v či vně bounding-boxu
         for pt in xy:
             if pt[0] >= a1[0] and pt[0] <= b1[0] and pt[1] >= b1[1] and pt[1] <= a1[1]:
                 q1.append(pt)
@@ -35,6 +38,7 @@ def lines (xy, NW, SE, xyID):
         lines(q3, a3, b3, xyID)
         lines(q4, b1, b4, xyID)
 
+#   Funkce pro spočítání hranic bounding-boxů
 def bbox(xy):
     coordinateX = []
     for f in xy:
@@ -50,6 +54,7 @@ def bbox(xy):
     minY = min(coordinateY)
     return (minX, maxY), (maxX, minY)
 
+#   Spouštění předchozích funkcí
 def build_quadtree(xy):
     NW, SE = bbox(xy)
     lines(xy, NW, SE, xyID)
