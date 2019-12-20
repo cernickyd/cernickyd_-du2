@@ -60,4 +60,3 @@ def build_quadtree(xy):
     lines(xy, NW, SE, xyID)
     return xyID
 
-
