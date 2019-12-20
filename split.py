@@ -1,6 +1,8 @@
 from quadtree import build_quadtree
 import json, os.path
 
+
+#   Funkce načte soubor .geojson (ošetřeny chybné vstupy)
 def load_file(json_file):
     if os.path.isfile(json_file):
         try:  # Zkus otevřít soubor
@@ -17,6 +19,7 @@ def load_file(json_file):
 
     return data
 
+#   Funkce pro načtení jednotlivých souřadnic bodů
 def load_xy(data):
     coordinates = []
     for feature in data['features']:
@@ -25,6 +28,7 @@ def load_xy(data):
 
     return coordinates
 
+#   Funkce pro přiřazení příslušné clusterID
 def add_ID(data, xyID):
     for f in data['features']:
         xy = f['geometry']['coordinates']
@@ -32,10 +36,13 @@ def add_ID(data, xyID):
 
     return data
 
+#   Spouštení jednotlivých funkcí
 data = load_file("input.geojson")
 coordinates = load_xy(data)
 xyID = build_quadtree(coordinates)
-print(xyID)
+print(xyID) # kontrolní tisk, zda se clusterID přiřadila správně
 final_ID = add_ID(data,xyID)
+
+#   Uložení souboru
 with open("output.geojson", "w", encoding="utf-8") as f:
     json.dump(final_ID, f, indent=2)
