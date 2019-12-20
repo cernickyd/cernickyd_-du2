@@ -3,18 +3,17 @@ import json, os.path
 
 def load_file(json_file):
     if os.path.isfile(json_file):
-        while True:
-            try:  # Zkus otevřít soubor
-                with open(json_file, "r", encoding="utf-8") as f:
-                    data = json.load(f)
-                    break
-            except FileExistsError as error:
-                print(error)
-                print("Soubor " + json_file + " je poškozený, nebo se nejedná o korektní geojson.")
-                exit()
+        try:  # Zkus otevřít soubor
+            with open(json_file, "r", encoding="utf-8") as f:
+                data = json.load(f)
+
+        except Exception as error:
+            print(error)
+            print("Soubor " + json_file + " je poškozený, nebo se nejedná o korektní geojson.")
+            exit(1)
     else:
         print("Soubor " + json_file + " neexistuje!")
-        exit()
+        exit(1)
 
     return data
 
@@ -29,7 +28,7 @@ def load_xy(data):
 def add_ID(data, xyID):
     for f in data['features']:
         xy = f['geometry']['coordinates']
-        f['clusterID'] = xyID[(xy[0],xy[1])]
+        f['properties']['clusterID'] = xyID[tuple(xy)]
 
     return data
 
