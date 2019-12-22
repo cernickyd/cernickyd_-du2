@@ -46,3 +46,4 @@ final_ID = add_ID(data,xyID)
 #   Uložení souboru
 with open("output.geojson", "w", encoding="utf-8") as f:
     json.dump(final_ID, f, indent=2)
+

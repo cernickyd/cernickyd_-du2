@@ -40,8 +40,6 @@ def lines (xy, NW, SE, xyID):
         lines(q3, a3, b3, xyID)
         lines(q4, b1, b4, xyID)
 
-        return clusterID
-
 #   Funkce pro spočítání hranic bounding-boxů
 def bbox(xy):
     coordinateX = []
