@@ -4,12 +4,13 @@ xyID = {}
 
 #   Rekurzivní funkce vytvoření obdélníků (více viz. dokumentace.md)
 def lines (xy, NW, SE, xyID):
+    global clusterID
     if len(xy) < 50:
-        global clusterID
         for pt in xy:
             xyID[tuple(pt)] = clusterID
         clusterID += 1
     else:
+        #   Hraniční body bounding-box, pokud neni splněna předchozí podmínka
         a1 = NW
         a2 = ((SE[0] + NW[0]) / 2, NW[1])
         a3 = (NW[0], (SE[1] + NW[1]) / 2)
@@ -18,6 +19,7 @@ def lines (xy, NW, SE, xyID):
         b2 = (SE[0], (SE[1] + NW[1]) / 2)
         b3 = ((SE[0] + NW[0]) / 2, SE[1])
         b4 = SE
+        #   Seznam pro každý kvadrant rozděleného bounding-boxu
         q1 = []
         q2 = []
         q3 = []
@@ -37,6 +39,8 @@ def lines (xy, NW, SE, xyID):
         lines(q2, a2, b2, xyID)
         lines(q3, a3, b3, xyID)
         lines(q4, b1, b4, xyID)
+
+        return clusterID
 
 #   Funkce pro spočítání hranic bounding-boxů
 def bbox(xy):
